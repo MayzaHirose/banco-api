@@ -6,10 +6,7 @@ import br.com.db1.db1start.bancoapi.dto.EstadoFormDTO;
 import br.com.db1.db1start.bancoapi.entity.Estado;
 import br.com.db1.db1start.bancoapi.service.EstadoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +26,18 @@ public class EstadoController {
 
     @PostMapping("/estados")
     public EstadoDTO criarEstado(@RequestBody EstadoFormDTO estadoFormDTO) {
-        Estado estado = estadoService.criar(estadoFormDTO.getNome());
-        return EstadoAdapter.converteEntidadeEstadoParaDTO(estado);
+        Estado estadoCriado = estadoService.criar(estadoFormDTO.getNome());
+        return EstadoAdapter.converteEntidadeEstadoParaDTO(estadoCriado);
+    }
+
+    @PutMapping("/estados/{estadoId}")
+    public EstadoDTO alterarEstado(@PathVariable Long estadoId, @RequestBody EstadoFormDTO formDTO) {
+        Estado estadoAlterado = estadoService.atualizar(estadoId, formDTO);
+        return EstadoAdapter.converteEntidadeEstadoParaDTO(estadoAlterado);
+    }
+
+    @DeleteMapping("/estados/{estadoId}")
+    public void deletarEstado(@PathVariable Long estadoId) {
+        estadoService.deletarPorId(estadoId);
     }
 }

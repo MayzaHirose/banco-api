@@ -1,12 +1,12 @@
 package br.com.db1.db1start.bancoapi.service;
 
-import java.util.List;
-
+import br.com.db1.db1start.bancoapi.dto.EstadoFormDTO;
+import br.com.db1.db1start.bancoapi.entity.Estado;
+import br.com.db1.db1start.bancoapi.repository.EstadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.db1.db1start.bancoapi.entity.Estado;
-import br.com.db1.db1start.bancoapi.repository.EstadoRepository;
+import java.util.List;
 
 @Service
 public class EstadoService {
@@ -18,6 +18,10 @@ public class EstadoService {
         Estado estado = new Estado();
         estado.setNome(nome);
         return estadoRepository.save(estado);
+    }
+
+    public Estado atualizar(Long estadoId, EstadoFormDTO formDTO) {
+        return atualizar(estadoId, formDTO.getNome());
     }
 
     public Estado atualizar(Long estadoId, String novoNome) {
